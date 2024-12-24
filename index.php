@@ -114,13 +114,18 @@
     <option value="BTCUSDT">BTC-USDT</option>
     <option value="ETHUSDT">ETH-USDT</option>
     <option value="BNBUSDT">BNB-USDT</option>
-    <option value="XRPUSDT">XRP-USDT</option>
-    <option value="ADAUSDT">ADA-USDT</option>
     <option value="SOLUSDT">SOL-USDT</option>
+    <option value="ADAUSDT">ADA-USDT</option>
     <option value="DOGEUSDT">DOGE-USDT</option>
-    <option value="MATICUSDT">MATIC-USDT</option>
-    <option value="DOTUSDT">DOT-USDT</option>
     <option value="AVAXUSDT">AVAX-USDT</option>
+    <option value="SHIBCUSDT">SHIB-USDT</option>
+    <option value="PEPECUSDT">PEPE-USDT</option>
+    <option value="DOTUSDT">DOT-USDT</option>
+    <option value="XRPUSDT">XRP-USDT</option>
+    <option value="PENGUUSDT">PENGU-USDT</option>
+    <option value="LTCUSDT">LTC-USDT</option>
+    <option value="LINKUSDT">LINK-USDT</option>
+    <option value="XLMSDT">XXLMSDT</option>
   </select>
 
   <!-- Tabel data historis -->
@@ -204,7 +209,7 @@
       <?php
       foreach ($skalas as $key => $value) :
       ?>
-        document.getElementById('<?= $value ?>').textContent = "<?= $value ?> High/Low " + selectedValue;
+        document.getElementById('<?= $value ?>').textContent = selectedValue + " Price High & Lows: <?= $value ?>";
         document.getElementById('real').textContent = "Real Time " + selectedValue;
       <?php endforeach ?>
     });

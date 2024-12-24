@@ -113,13 +113,18 @@
       <option value="BTCUSDT">BTC-USDT</option>
       <option value="ETHUSDT">ETH-USDT</option>
       <option value="BNBUSDT">BNB-USDT</option>
-      <option value="XRPUSDT">XRP-USDT</option>
-      <option value="ADAUSDT">ADA-USDT</option>
       <option value="SOLUSDT">SOL-USDT</option>
+      <option value="ADAUSDT">ADA-USDT</option>
       <option value="DOGEUSDT">DOGE-USDT</option>
-      <option value="MATICUSDT">MATIC-USDT</option>
-      <option value="DOTUSDT">DOT-USDT</option>
       <option value="AVAXUSDT">AVAX-USDT</option>
+      <option value="SHIBCUSDT">SHIB-USDT</option>
+      <option value="PEPECUSDT">PEPE-USDT</option>
+      <option value="DOTUSDT">DOT-USDT</option>
+      <option value="XRPUSDT">XRP-USDT</option>
+      <option value="PENGUUSDT">PENGU-USDT</option>
+      <option value="LTCUSDT">LTC-USDT</option>
+      <option value="LINKUSDT">LINK-USDT</option>
+      <option value="XLMSDT">XXLMSDT</option>
     </select>
 
     <!-- Tabel data historis -->
@@ -277,25 +282,25 @@
           selectElement.options[selectElement.selectedIndex].text; // Get selected text
 
         document.getElementById("24-Hour").textContent =
-          "24-Hour High/Low " + selectedValue;
+          selectedValue + " Price High & Lows: 24-Hour";
         document.getElementById("real").textContent =
           "Real Time " + selectedValue;
         document.getElementById("7-Day").textContent =
-          "7-Day High/Low " + selectedValue;
+          selectedValue + " Price High & Lows: 7-Day";
         document.getElementById("real").textContent =
           "Real Time " + selectedValue;
         document.getElementById("1-Month").textContent =
-          "1-Month High/Low " + selectedValue;
+          selectedValue + " Price High & Lows: 1-Month";
         document.getElementById("real").textContent =
           "Real Time " + selectedValue;
         document.getElementById("1-Year").textContent =
-          "1-Year High/Low " + selectedValue;
+          selectedValue + " Price High & Lows: 1-Year";
         document.getElementById("real").textContent =
           "Real Time " + selectedValue;
       });
 
       function fetchHistoricalData() {
-        const kmz24Hour = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=1734978205882&endTime=1735064605882`;
+        const kmz24Hour = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=1734979173764&endTime=1735065573764`;
         fetch(kmz24Hour)
           .then((response) => response.json())
           .then((data) => {
@@ -327,7 +332,7 @@
             kmz24HourLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
-        const kmz7Day = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1734459805882&endTime=1735064605882`;
+        const kmz7Day = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1734460773764&endTime=1735065573764`;
         fetch(kmz7Day)
           .then((response) => response.json())
           .then((data) => {
@@ -359,7 +364,7 @@
             kmz7DayLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
-        const kmz1Month = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1732472605882&endTime=1735064605882`;
+        const kmz1Month = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1732473573764&endTime=1735065573764`;
         fetch(kmz1Month)
           .then((response) => response.json())
           .then((data) => {
@@ -391,7 +396,7 @@
             kmz1MonthLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
-        const kmz1Year = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1w&startTime=1703528605882&endTime=1735064605882`;
+        const kmz1Year = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1w&startTime=1703529573764&endTime=1735065573764`;
         fetch(kmz1Year)
           .then((response) => response.json())
           .then((data) => {
