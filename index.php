@@ -141,120 +141,44 @@
     </table>
   </div>
 
-  <!-- Tabel harga 24 jam terakhir -->
-  <div class="scrollable">
-    <h3 id="hour">24-Hour High/Low BTC-USDT</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Highest Price</th>
-          <th>Time</th>
-          <th>Lowest Price</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="daily-high-low">
-        <tr>
-          <td id="day-high">-</td>
-          <td id="day-high-time">-</td>
-          <td id="day-low">-</td>
-          <td id="day-low-time">-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Tabel harga 1 minggu terakhir -->
-  <div class="scrollable">
-    <h3 id="week">1-Week High/Low BTC-USDT</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Highest Price</th>
-          <th>Time</th>
-          <th>Lowest Price</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="weekly-high-low">
-        <tr>
-          <td id="week-high">-</td>
-          <td id="week-high-time">-</td>
-          <td id="week-low">-</td>
-          <td id="week-low-time">-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Tabel harga 1 bulan terakhir -->
-  <div class="scrollable">
-    <h3 id="month">1-Month High/Low BTC-USDT</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Highest Price</th>
-          <th>Time</th>
-          <th>Lowest Price</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="monthly-high-low">
-        <tr>
-          <td id="month-high">-</td>
-          <td id="month-high-time">-</td>
-          <td id="month-low">-</td>
-          <td id="month-low-time">-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Tabel harga 1 tahun terakhir -->
-  <div class="scrollable">
-    <h3 id="year">1-Year High/Low BTC-USDT</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Highest Price</th>
-          <th>Time</th>
-          <th>Lowest Price</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="yearly-high-low">
-        <tr>
-          <td id="year-high">-</td>
-          <td id="year-high-time">-</td>
-          <td id="year-low">-</td>
-          <td id="year-low-time">-</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <?php
+  $skalas = ['24-Hour', '7-Day', '1-Month', '1-Year'];
+  foreach ($skalas as $key => $value) :
+  ?>
+    <div class="scrollable">
+      <h3 id="<?= $value ?>">BTC-USDT Price High & Lows: <?= $value ?></h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Time</th>
+            <th>Lowest Price</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="<?= $value ?>-high-low">
+          <tr>
+            <td id="<?= $value ?>-high">-</td>
+            <td id="<?= $value ?>-high-time">-</td>
+            <td id="<?= $value ?>-low">-</td>
+            <td id="<?= $value ?>-low-time">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <?php endforeach ?>
 
   <script>
     const tableBody = document.getElementById('data-table');
 
-    const dayHighEl = document.getElementById('day-high');
-    const dayLowEl = document.getElementById('day-low');
-    const dayHighTimeEl = document.getElementById('day-high-time');
-    const dayLowTimeEl = document.getElementById('day-low-time');
-
-    const weekHighEl = document.getElementById('week-high');
-    const weekLowEl = document.getElementById('week-low');
-    const weekHighTimeEl = document.getElementById('week-high-time');
-    const weekLowTimeEl = document.getElementById('week-low-time');
-
-    const monthHighEl = document.getElementById('month-high');
-    const monthLowEl = document.getElementById('month-low');
-    const monthHighTimeEl = document.getElementById('month-high-time');
-    const monthLowTimeEl = document.getElementById('month-low-time');
-
-    const yearHighEl = document.getElementById('year-high');
-    const yearLowEl = document.getElementById('year-low');
-    const yearHighTimeEl = document.getElementById('year-high-time');
-    const yearLowTimeEl = document.getElementById('year-low-time');
+    <?php
+    foreach ($skalas as $key => $value) :
+    ?>
+      const kmz<?= str_replace("-", "", $value,) ?>HighEl = document.getElementById('<?= $value ?>-high');
+      const kmz<?= str_replace("-", "", $value,) ?>LowEl = document.getElementById('<?= $value ?>-low');
+      const kmz<?= str_replace("-", "", $value,) ?>HighTimeEl = document.getElementById('<?= $value ?>-high-time');
+      const kmz<?= str_replace("-", "", $value,) ?>LowTimeEl = document.getElementById('<?= $value ?>-low-time');
+    <?php endforeach ?>
 
     function formatNumber(num) {
       return num.toLocaleString('en-US', {
@@ -266,8 +190,6 @@
     const selectElement = document.getElementById('cripto');
     let selectedSymbol = selectElement.value; // Default value saat pertama kali halaman dimuat
 
-    const pairTitle = document.getElementById('hour');
-
     // Event listener untuk update symbol saat dropdown berubah
     selectElement.addEventListener('change', () => {
       selectedSymbol = selectElement.value;
@@ -275,125 +197,48 @@
       fetchData(); // Fetch data tabel lagi
 
       const selectedValue = selectElement.options[selectElement.selectedIndex].text; // Get selected text
-      document.getElementById('real').textContent = "Real Time " + selectedValue;
-      document.getElementById('hour').textContent = "1-Hour High/Low " + selectedValue;
-      document.getElementById('week').textContent = "1-Week High/Low " + selectedValue;
-      document.getElementById('month').textContent = "1-Month High/Low " + selectedValue;
-      document.getElementById('year').textContent = "1-Year High/Low " + selectedValue;
+
+      <?php
+      foreach ($skalas as $key => $value) :
+      ?>
+        document.getElementById('<?= $value ?>').textContent = "<?= $value ?> High/Low " + selectedValue;
+        document.getElementById('real').textContent = "Real Time " + selectedValue;
+      <?php endforeach ?>
     });
 
 
 
     function fetchHistoricalData() {
-      const endTime = Date.now();
-      const oneDayAgo = endTime - 24 * 60 * 60 * 1000;
-      const TwoDayAgo = endTime - 24 * 60 * 60 * 1000;
-      const ThereDayAgo = endTime - 24 * 60 * 60 * 1000;
-      const oneWeekAgo = endTime - 7 * 24 * 60 * 60 * 1000;
-      const oneMonthAgo = endTime - 30 * 24 * 60 * 60 * 1000;
-      const oneYearAgo = endTime - 365 * 24 * 60 * 60 * 1000;
+      <?php
+      $timestamp = round(microtime(true) * 1000);
 
-      const dailyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=${oneDayAgo}&endTime=${endTime}`;
-      fetch(dailyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
+      $oneDayAgo = $timestamp - 24 * 60 * 60 * 1000;
+      $oneWeekAgo = $timestamp - 7 * 24 * 60 * 60 * 1000;
+      $oneMonthAgo = $timestamp - 30 * 24 * 60 * 60 * 1000;
+      $oneYearAgo = $timestamp - 365 * 24 * 60 * 60 * 1000;
 
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+      $start = [$oneDayAgo, $oneWeekAgo, $oneMonthAgo, $oneYearAgo];
+      $interval = ["1h", "1d", "1d", "1w"];
 
-          dayHighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          dayHighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          dayLowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          dayLowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
+      foreach ($skalas as $key => $value) :
+      ?>
+        const kmz<?= str_replace("-", "", $value,) ?> = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=<?= $interval[$key] ?>&startTime=<?= $start[$key] ?>&endTime=<?= $timestamp ?>`;
+        fetch(kmz<?= str_replace("-", "", $value,) ?>)
+          .then(response => response.json())
+          .then(data => {
+            const highPrices = data.map(candle => parseFloat(candle[2]));
+            const lowPrices = data.map(candle => parseFloat(candle[3]));
+            const times = data.map(candle => new Date(candle[0]));
 
-      const dail2yUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=${TwoDayAgo}&endTime=${endTime}`;
-      fetch(dailyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
+            const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
+            const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
 
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-          day2HighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          day2HighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          day2LowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          day2LowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
-
-      const dail3yUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=${ThereDayAgo}&endTime=${endTime}`;
-      fetch(dailyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
-
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-          day3HighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          day3HighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          day3LowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          day3LowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
-
-      const weeklyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=${oneWeekAgo}&endTime=${endTime}`;
-      fetch(weeklyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
-
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-          weekHighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          weekHighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          weekLowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          weekLowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
-
-      const monthlyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=${oneMonthAgo}&endTime=${endTime}`;
-      fetch(monthlyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
-
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-          monthHighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          monthHighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          monthLowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          monthLowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
-
-      const yearlyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1w&startTime=${oneYearAgo}&endTime=${endTime}`;
-      fetch(yearlyUrl)
-        .then(response => response.json())
-        .then(data => {
-          const highPrices = data.map(candle => parseFloat(candle[2]));
-          const lowPrices = data.map(candle => parseFloat(candle[3]));
-          const times = data.map(candle => new Date(candle[0]));
-
-          const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
-          const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-          yearHighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
-          yearHighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
-          yearLowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
-          yearLowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-        });
+            kmz<?= str_replace("-", "", $value,) ?>HighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
+            kmz<?= str_replace("-", "", $value,) ?>HighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
+            kmz<?= str_replace("-", "", $value,) ?>LowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
+            kmz<?= str_replace("-", "", $value,) ?>LowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
+          });
+      <?php endforeach ?>
     }
 
     function fetchData() {
@@ -403,7 +248,7 @@
       let sevenMinitsAgo = endTime - 10 * 1000;
 
       const tableUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1s&startTime=${sevenMinitsAgo}&endTime=${endTime}`;
-      fetch(dailyUrl)
+      fetch(tableUrl)
         .then(response => response.json())
         .then(data => {
           tableBody.innerHTML = ""; // Clear previous data
@@ -445,12 +290,11 @@
         });
     }
 
-
-    // Panggil fetchData setiap detik
-    setInterval(fetchData, 1300);
-
     fetchHistoricalData();
     fetchData();
+
+    // Panggil fetchData setiap 1,3 detik
+    setInterval(fetchData, 1300);
   </script>
 </body>
 
