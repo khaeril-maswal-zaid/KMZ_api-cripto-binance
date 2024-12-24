@@ -107,7 +107,7 @@
 
   <body>
     <h1>Binance Historical Data</h1>
-    <p>Data Presented by Al-Zaid Finance</p>
+    <p>Data Presented by Al-Zaid Webcrafters</p>
 
     <select name="cripto" id="cripto">
       <option value="BTCUSDT">BTC-USDT</option>
@@ -140,93 +140,94 @@
       </table>
     </div>
 
-    <!-- Tabel harga 24 jam terakhir -->
     <div class="scrollable">
-      <h3 id="hour">24-Hour High/Low BTC-USDT</h3>
+      <h3 id="24-Hour">BTC-USDT Price High & Lows: 24-Hour</h3>
       <table>
         <thead>
           <tr>
             <th>Highest Price</th>
-            <th>Time</th>
+            <th>Significant</th>
             <th>Lowest Price</th>
-            <th>Time</th>
           </tr>
         </thead>
-        <tbody id="daily-high-low">
+        <tbody id="24-Hour-high-low">
           <tr>
-            <td id="day-high">-</td>
-            <td id="day-high-time">-</td>
-            <td id="day-low">-</td>
-            <td id="day-low-time">-</td>
+            <td id="24-Hour-high">-</td>
+            <td id="24-Hour-signif" rowspan="2">-</td>
+            <td id="24-Hour-low">-</td>
+          </tr>
+          <tr>
+            <td id="24-Hour-high-time">-</td>
+            <td id="24-Hour-low-time">-</td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <!-- Tabel harga 1 minggu terakhir -->
     <div class="scrollable">
-      <h3 id="week">1-Week High/Low BTC-USDT</h3>
+      <h3 id="7-Day">BTC-USDT Price High & Lows: 7-Day</h3>
       <table>
         <thead>
           <tr>
             <th>Highest Price</th>
-            <th>Time</th>
+            <th>Significant</th>
             <th>Lowest Price</th>
-            <th>Time</th>
           </tr>
         </thead>
-        <tbody id="weekly-high-low">
+        <tbody id="7-Day-high-low">
           <tr>
-            <td id="week-high">-</td>
-            <td id="week-high-time">-</td>
-            <td id="week-low">-</td>
-            <td id="week-low-time">-</td>
+            <td id="7-Day-high">-</td>
+            <td id="7-Day-signif" rowspan="2">-</td>
+            <td id="7-Day-low">-</td>
+          </tr>
+          <tr>
+            <td id="7-Day-high-time">-</td>
+            <td id="7-Day-low-time">-</td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <!-- Tabel harga 1 bulan terakhir -->
     <div class="scrollable">
-      <h3 id="month">1-Month High/Low BTC-USDT</h3>
+      <h3 id="1-Month">BTC-USDT Price High & Lows: 1-Month</h3>
       <table>
         <thead>
           <tr>
             <th>Highest Price</th>
-            <th>Time</th>
+            <th>Significant</th>
             <th>Lowest Price</th>
-            <th>Time</th>
           </tr>
         </thead>
-        <tbody id="monthly-high-low">
+        <tbody id="1-Month-high-low">
           <tr>
-            <td id="month-high">-</td>
-            <td id="month-high-time">-</td>
-            <td id="month-low">-</td>
-            <td id="month-low-time">-</td>
+            <td id="1-Month-high">-</td>
+            <td id="1-Month-signif" rowspan="2">-</td>
+            <td id="1-Month-low">-</td>
+          </tr>
+          <tr>
+            <td id="1-Month-high-time">-</td>
+            <td id="1-Month-low-time">-</td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <!-- Tabel harga 1 tahun terakhir -->
     <div class="scrollable">
-      <h3 id="year">1-Year High/Low BTC-USDT</h3>
+      <h3 id="1-Year">BTC-USDT Price High & Lows: 1-Year</h3>
       <table>
         <thead>
           <tr>
             <th>Highest Price</th>
-            <th>Time</th>
+            <th>Significant</th>
             <th>Lowest Price</th>
-            <th>Time</th>
           </tr>
         </thead>
-        <tbody id="yearly-high-low">
+        <tbody id="1-Year-high-low">
           <tr>
-            <td id="year-high">-</td>
-            <td id="year-high-time">-</td>
-            <td id="year-low">-</td>
-            <td id="year-low-time">-</td>
+            <td id="1-Year-high">-</td>
+            <td id="1-Year-signif" rowspan="2">-</td>
+            <td id="1-Year-low">-</td>
+          </tr>
+          <tr>
+            <td id="1-Year-high-time">-</td>
+            <td id="1-Year-low-time">-</td>
           </tr>
         </tbody>
       </table>
@@ -235,25 +236,26 @@
     <script>
       const tableBody = document.getElementById("data-table");
 
-      const dayHighEl = document.getElementById("day-high");
-      const dayLowEl = document.getElementById("day-low");
-      const dayHighTimeEl = document.getElementById("day-high-time");
-      const dayLowTimeEl = document.getElementById("day-low-time");
-
-      const weekHighEl = document.getElementById("week-high");
-      const weekLowEl = document.getElementById("week-low");
-      const weekHighTimeEl = document.getElementById("week-high-time");
-      const weekLowTimeEl = document.getElementById("week-low-time");
-
-      const monthHighEl = document.getElementById("month-high");
-      const monthLowEl = document.getElementById("month-low");
-      const monthHighTimeEl = document.getElementById("month-high-time");
-      const monthLowTimeEl = document.getElementById("month-low-time");
-
-      const yearHighEl = document.getElementById("year-high");
-      const yearLowEl = document.getElementById("year-low");
-      const yearHighTimeEl = document.getElementById("year-high-time");
-      const yearLowTimeEl = document.getElementById("year-low-time");
+      const kmz24HourHighEl = document.getElementById("24-Hour-high");
+      const kmz24HourLowEl = document.getElementById("24-Hour-low");
+      const kmz24HourSignif = document.getElementById("24-Hour-signif");
+      const kmz24HourHighTimeEl = document.getElementById("24-Hour-high-time");
+      const kmz24HourLowTimeEl = document.getElementById("24-Hour-low-time");
+      const kmz7DayHighEl = document.getElementById("7-Day-high");
+      const kmz7DayLowEl = document.getElementById("7-Day-low");
+      const kmz7DaySignif = document.getElementById("7-Day-signif");
+      const kmz7DayHighTimeEl = document.getElementById("7-Day-high-time");
+      const kmz7DayLowTimeEl = document.getElementById("7-Day-low-time");
+      const kmz1MonthHighEl = document.getElementById("1-Month-high");
+      const kmz1MonthLowEl = document.getElementById("1-Month-low");
+      const kmz1MonthSignif = document.getElementById("1-Month-signif");
+      const kmz1MonthHighTimeEl = document.getElementById("1-Month-high-time");
+      const kmz1MonthLowTimeEl = document.getElementById("1-Month-low-time");
+      const kmz1YearHighEl = document.getElementById("1-Year-high");
+      const kmz1YearLowEl = document.getElementById("1-Year-low");
+      const kmz1YearSignif = document.getElementById("1-Year-signif");
+      const kmz1YearHighTimeEl = document.getElementById("1-Year-high-time");
+      const kmz1YearLowTimeEl = document.getElementById("1-Year-low-time");
 
       function formatNumber(num) {
         return num.toLocaleString("en-US", {
@@ -265,8 +267,6 @@
       const selectElement = document.getElementById("cripto");
       let selectedSymbol = selectElement.value; // Default value saat pertama kali halaman dimuat
 
-      const pairTitle = document.getElementById("hour");
-
       // Event listener untuk update symbol saat dropdown berubah
       selectElement.addEventListener("change", () => {
         selectedSymbol = selectElement.value;
@@ -275,51 +275,28 @@
 
         const selectedValue =
           selectElement.options[selectElement.selectedIndex].text; // Get selected text
+
+        document.getElementById("24-Hour").textContent =
+          "24-Hour High/Low " + selectedValue;
         document.getElementById("real").textContent =
           "Real Time " + selectedValue;
-        document.getElementById("hour").textContent =
-          "24-Hour High/Low " + selectedValue;
-        document.getElementById("week").textContent =
-          "1-Week High/Low " + selectedValue;
-        document.getElementById("month").textContent =
+        document.getElementById("7-Day").textContent =
+          "7-Day High/Low " + selectedValue;
+        document.getElementById("real").textContent =
+          "Real Time " + selectedValue;
+        document.getElementById("1-Month").textContent =
           "1-Month High/Low " + selectedValue;
-        document.getElementById("year").textContent =
+        document.getElementById("real").textContent =
+          "Real Time " + selectedValue;
+        document.getElementById("1-Year").textContent =
           "1-Year High/Low " + selectedValue;
+        document.getElementById("real").textContent =
+          "Real Time " + selectedValue;
       });
 
       function fetchHistoricalData() {
-        const endTime = Date.now();
-        const twentyFourHoursAgo = endTime - 24 * 60 * 60 * 1000;
-        const oneWeekAgo = endTime - 7 * 24 * 60 * 60 * 1000;
-        const oneMonthAgo = endTime - 30 * 24 * 60 * 60 * 1000;
-        const oneYearAgo = endTime - 365 * 24 * 60 * 60 * 1000;
-
-        const dailyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=${twentyFourHoursAgo}&endTime=${endTime}`;
-        fetch(dailyUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            const highPrices = data.map((candle) => parseFloat(candle[2])); //ambil semua array kolum Harga tertinggi
-            const lowPrices = data.map((candle) => parseFloat(candle[3]));
-            const times = data.map((candle) => new Date(candle[0]));
-
-            const highestPriceIndex = highPrices.indexOf(
-              Math.max(...highPrices)
-            );
-            const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
-
-            dayHighEl.textContent = `$${formatNumber(
-              highPrices[highestPriceIndex]
-            )}`;
-            dayHighTimeEl.textContent =
-              times[highestPriceIndex].toLocaleString();
-            dayLowEl.textContent = `$${formatNumber(
-              lowPrices[lowestPriceIndex]
-            )}`;
-            dayLowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
-          });
-
-        const weeklyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=${oneWeekAgo}&endTime=${endTime}`;
-        fetch(weeklyUrl)
+        const kmz24Hour = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1h&startTime=1734978205882&endTime=1735064605882`;
+        fetch(kmz24Hour)
           .then((response) => response.json())
           .then((data) => {
             const highPrices = data.map((candle) => parseFloat(candle[2]));
@@ -330,21 +307,28 @@
               Math.max(...highPrices)
             );
             const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+            const signif = formatNumber(
+              ((highPrices[highestPriceIndex] - lowPrices[lowestPriceIndex]) /
+                lowPrices[lowestPriceIndex]) *
+                100
+            );
 
-            weekHighEl.textContent = `$${formatNumber(
+            kmz24HourHighEl.textContent = `$${formatNumber(
               highPrices[highestPriceIndex]
             )}`;
-            weekHighTimeEl.textContent =
+            kmz24HourHighTimeEl.textContent =
               times[highestPriceIndex].toLocaleString();
-            weekLowEl.textContent = `$${formatNumber(
+
+            kmz24HourSignif.textContent = signif + "%";
+
+            kmz24HourLowEl.textContent = `$${formatNumber(
               lowPrices[lowestPriceIndex]
             )}`;
-            weekLowTimeEl.textContent =
+            kmz24HourLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
-
-        const monthlyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=${oneMonthAgo}&endTime=${endTime}`;
-        fetch(monthlyUrl)
+        const kmz7Day = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1734459805882&endTime=1735064605882`;
+        fetch(kmz7Day)
           .then((response) => response.json())
           .then((data) => {
             const highPrices = data.map((candle) => parseFloat(candle[2]));
@@ -355,21 +339,28 @@
               Math.max(...highPrices)
             );
             const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+            const signif = formatNumber(
+              ((highPrices[highestPriceIndex] - lowPrices[lowestPriceIndex]) /
+                lowPrices[lowestPriceIndex]) *
+                100
+            );
 
-            monthHighEl.textContent = `$${formatNumber(
+            kmz7DayHighEl.textContent = `$${formatNumber(
               highPrices[highestPriceIndex]
             )}`;
-            monthHighTimeEl.textContent =
+            kmz7DayHighTimeEl.textContent =
               times[highestPriceIndex].toLocaleString();
-            monthLowEl.textContent = `$${formatNumber(
+
+            kmz7DaySignif.textContent = signif + "%";
+
+            kmz7DayLowEl.textContent = `$${formatNumber(
               lowPrices[lowestPriceIndex]
             )}`;
-            monthLowTimeEl.textContent =
+            kmz7DayLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
-
-        const yearlyUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1w&startTime=${oneYearAgo}&endTime=${endTime}`;
-        fetch(yearlyUrl)
+        const kmz1Month = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1d&startTime=1732472605882&endTime=1735064605882`;
+        fetch(kmz1Month)
           .then((response) => response.json())
           .then((data) => {
             const highPrices = data.map((candle) => parseFloat(candle[2]));
@@ -380,16 +371,56 @@
               Math.max(...highPrices)
             );
             const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+            const signif = formatNumber(
+              ((highPrices[highestPriceIndex] - lowPrices[lowestPriceIndex]) /
+                lowPrices[lowestPriceIndex]) *
+                100
+            );
 
-            yearHighEl.textContent = `$${formatNumber(
+            kmz1MonthHighEl.textContent = `$${formatNumber(
               highPrices[highestPriceIndex]
             )}`;
-            yearHighTimeEl.textContent =
+            kmz1MonthHighTimeEl.textContent =
               times[highestPriceIndex].toLocaleString();
-            yearLowEl.textContent = `$${formatNumber(
+
+            kmz1MonthSignif.textContent = signif + "%";
+
+            kmz1MonthLowEl.textContent = `$${formatNumber(
               lowPrices[lowestPriceIndex]
             )}`;
-            yearLowTimeEl.textContent =
+            kmz1MonthLowTimeEl.textContent =
+              times[lowestPriceIndex].toLocaleString();
+          });
+        const kmz1Year = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1w&startTime=1703528605882&endTime=1735064605882`;
+        fetch(kmz1Year)
+          .then((response) => response.json())
+          .then((data) => {
+            const highPrices = data.map((candle) => parseFloat(candle[2]));
+            const lowPrices = data.map((candle) => parseFloat(candle[3]));
+            const times = data.map((candle) => new Date(candle[0]));
+
+            const highestPriceIndex = highPrices.indexOf(
+              Math.max(...highPrices)
+            );
+            const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+            const signif = formatNumber(
+              ((highPrices[highestPriceIndex] - lowPrices[lowestPriceIndex]) /
+                lowPrices[lowestPriceIndex]) *
+                100
+            );
+
+            kmz1YearHighEl.textContent = `$${formatNumber(
+              highPrices[highestPriceIndex]
+            )}`;
+            kmz1YearHighTimeEl.textContent =
+              times[highestPriceIndex].toLocaleString();
+
+            kmz1YearSignif.textContent = signif + "%";
+
+            kmz1YearLowEl.textContent = `$${formatNumber(
+              lowPrices[lowestPriceIndex]
+            )}`;
+            kmz1YearLowTimeEl.textContent =
               times[lowestPriceIndex].toLocaleString();
           });
       }
@@ -417,11 +448,11 @@
 
               const row = document.createElement("tr");
               row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${openTime}</td>
-          <td>${openPrice}</td>
-          <td>${closePrice}</td>
-        `;
+              <td>${index + 1}</td>
+              <td>${openTime}</td>
+              <td>${openPrice}</td>
+              <td>${closePrice}</td>
+            `;
               tableBody.appendChild(row);
             });
 
@@ -443,11 +474,11 @@
           });
       }
 
-      // Panggil fetchData setiap detik
-      setInterval(fetchData, 1300);
-
       fetchHistoricalData();
       fetchData();
+
+      // Panggil fetchData setiap 1,3 detik
+      setInterval(fetchData, 1300);
     </script>
   </body>
 </html>

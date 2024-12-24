@@ -151,16 +151,18 @@
         <thead>
           <tr>
             <th>Highest Price</th>
-            <th>Time</th>
+            <th>Significant</th>
             <th>Lowest Price</th>
-            <th>Time</th>
           </tr>
         </thead>
         <tbody id="<?= $value ?>-high-low">
           <tr>
             <td id="<?= $value ?>-high">-</td>
-            <td id="<?= $value ?>-high-time">-</td>
+            <td id="<?= $value ?>-signif" rowspan="2">-</td>
             <td id="<?= $value ?>-low">-</td>
+          </tr>
+          <tr>
+            <td id="<?= $value ?>-high-time">-</td>
             <td id="<?= $value ?>-low-time">-</td>
           </tr>
         </tbody>
@@ -176,6 +178,7 @@
     ?>
       const kmz<?= str_replace("-", "", $value,) ?>HighEl = document.getElementById('<?= $value ?>-high');
       const kmz<?= str_replace("-", "", $value,) ?>LowEl = document.getElementById('<?= $value ?>-low');
+      const kmz<?= str_replace("-", "", $value,) ?>Signif = document.getElementById('<?= $value ?>-signif');
       const kmz<?= str_replace("-", "", $value,) ?>HighTimeEl = document.getElementById('<?= $value ?>-high-time');
       const kmz<?= str_replace("-", "", $value,) ?>LowTimeEl = document.getElementById('<?= $value ?>-low-time');
     <?php endforeach ?>
@@ -232,9 +235,13 @@
 
             const highestPriceIndex = highPrices.indexOf(Math.max(...highPrices));
             const lowestPriceIndex = lowPrices.indexOf(Math.min(...lowPrices));
+            const signif = formatNumber(((highPrices[highestPriceIndex] - lowPrices[lowestPriceIndex]) / lowPrices[lowestPriceIndex]) * 100);
 
             kmz<?= str_replace("-", "", $value,) ?>HighEl.textContent = `$${formatNumber(highPrices[highestPriceIndex])}`;
             kmz<?= str_replace("-", "", $value,) ?>HighTimeEl.textContent = times[highestPriceIndex].toLocaleString();
+
+            kmz<?= str_replace("-", "", $value,) ?>Signif.textContent = signif + "%";
+
             kmz<?= str_replace("-", "", $value,) ?>LowEl.textContent = `$${formatNumber(lowPrices[lowestPriceIndex])}`;
             kmz<?= str_replace("-", "", $value,) ?>LowTimeEl.textContent = times[lowestPriceIndex].toLocaleString();
           });
@@ -264,11 +271,11 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${openTime}</td>
-          <td>${openPrice}</td>
-          <td>${closePrice}</td>
-        `;
+              <td>${index + 1}</td>
+              <td>${openTime}</td>
+              <td>${openPrice}</td>
+              <td>${closePrice}</td>
+            `;
             tableBody.appendChild(row);
           });
 
