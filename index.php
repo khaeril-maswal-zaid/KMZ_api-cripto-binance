@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Binance Historical Data</title>
+  <title>Al-Zaid Webcrafters</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -108,7 +108,7 @@
 
 <body>
   <h1>Binance Historical Data</h1>
-  <p>Data Presented by Al-Zaid Finance</p>
+  <p>Data Presented by Al-Zaid Webcrafters</p>
 
   <select name="cripto" id="cripto">
     <option value="BTCUSDT">BTC-USDT</option>
