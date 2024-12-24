@@ -298,7 +298,7 @@
         fetch(dailyUrl)
           .then((response) => response.json())
           .then((data) => {
-            const highPrices = data.map((candle) => parseFloat(candle[2]));
+            const highPrices = data.map((candle) => parseFloat(candle[2])); //ambil semua array kolum Harga tertinggi
             const lowPrices = data.map((candle) => parseFloat(candle[3]));
             const times = data.map((candle) => new Date(candle[0]));
 
