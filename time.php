@@ -13,4 +13,4 @@ if ($current_time < $today_8am) {
 }
 
 // Menampilkan detik waktu terakhir pukul 8 pagi
-echo "Detik terakhir pukul 8 pagi: " . $last_8am;
+echo "Detik terakhir pukul 8 pagi: " . $last_8am . " " . date("Y-m-d H:i:s", $last_8am);
