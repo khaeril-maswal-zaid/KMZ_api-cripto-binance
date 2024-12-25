@@ -91,31 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        <?php
-        $timestamp = round(microtime(true) * 1000);
-
-        // // Waktu pukul 8 pagi hari ini
-        // $today_8am = strtotime("today 08:00") * 1000;
-
-        // // Jika sekarang masih sebelum pukul 8 pagi, ambil pukul 8 pagi kemarin
-        // if ($timestamp < $today_8am) {
-        //     $today_8amx = strtotime("yesterday") * 1000;
-        // }
-
-        $apiEnd = $timestamp - 6 * 24 * 60 * 60 * 1000;
-        $apiStart = $apiEnd - 7 * 24 * 60 * 60 * 1000;
-        ?>
-
         document.addEventListener('DOMContentLoaded', async function() {
             const cryptoSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "SHIBUSDT", "PEPEUSDT", "DOTUSDT", "XRPUSDT", "PENGUUSDT", "LTCUSDT", "LINKUSDT", "XLMUSDT"]; // Tambahkan simbol lain di sini
 
             const now = new Date();
             const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const apiEnd = startOfDay - 6 * 24 * 60 * 60 * 1000;
-            const apiStart = startOfDay - 7 * 24 * 60 * 60 * 1000;
+            const plih = 4;
+            const apiEnd = startOfDay - plih * 24 * 60 * 60 * 1000;
+            const apiStart = startOfDay - (plih + 1) * 24 * 60 * 60 * 1000;
 
-            console.log(new Date(apiStart).toLocaleString(), new Date(apiEnd).toLocaleString());
-            exit;
+            // console.log(new Date(apiStart).toLocaleString(), new Date(apiEnd).toLocaleString());
 
             function formatNumber(num) {
                 return num.toLocaleString('en-US', {
@@ -130,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             for (const symbol of cryptoSymbols) {
                 try {
-                    const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&startTime=${apiStart}&endTime=${apiEnd}`;
+                    const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=15m&startTime=${apiStart}&endTime=${apiEnd}`;
                     const apiResponse = await fetch(apiUrl);
                     const data = await apiResponse.json();
 
@@ -176,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             loading.style.display = 'none';
-            window.location.href = "history-high-low-prices.php";
+            window.location.href = "index.php";
         });
     </script>
 </body>
