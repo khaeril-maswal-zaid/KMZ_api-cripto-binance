@@ -154,8 +154,8 @@
     <option value="ADAUSDT">ADA-USDT</option>
     <option value="DOGEUSDT">DOGE-USDT</option>
     <option value="AVAXUSDT">AVAX-USDT</option>
-    <option value="SHIBCUSDT">SHIB-USDT</option>
-    <option value="PEPECUSDT">PEPE-USDT</option>
+    <option value="SHIBUSDT">SHIB-USDT</option>
+    <option value="PEPEUSDT">PEPE-USDT</option>
     <option value="DOTUSDT">DOT-USDT</option>
     <option value="XRPUSDT">XRP-USDT</option>
     <option value="PENGUUSDT">PENGU-USDT</option>
@@ -249,6 +249,12 @@
       <?php
       foreach ($skalas as $key => $value) :
       ?>
+        kmz<?= str_replace("-", "", $value,) ?>HighEl.textContent = "-";
+        kmz<?= str_replace("-", "", $value,) ?>HighTimeEl.textContent = "-";
+        kmz<?= str_replace("-", "", $value,) ?>Signif.textContent = "-%";
+        kmz<?= str_replace("-", "", $value,) ?>LowEl.textContent = "-";
+        kmz<?= str_replace("-", "", $value,) ?>LowTimeEl.textContent = "-";
+
         document.getElementById('<?= $value ?>').textContent = selectedValue + " Price High & Lows: <?= $value ?>";
         document.getElementById('real').textContent = "Real Time " + selectedValue;
       <?php endforeach ?>

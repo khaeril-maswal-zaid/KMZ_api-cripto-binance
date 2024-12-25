@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Data yang akan dimasukkan
                 $data = [
-                    'type_cripto' => "BTC",
+                    'type_cripto' => $data['symbol'],
                     'high_price' => $data['highPrice'],
                     'time_high_price' => $data['timeHighPrice'],
                     'significant' => $data['signif'],
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ?>
 
         document.addEventListener('DOMContentLoaded', async function() {
-            const cryptoSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "SHIBCUSDT", "PEPECUSDT", "DOTUSDT", "XRPUSDT", "PENGUUSDT", "LTCUSDT", "LINKUSDT", "XLMUSDT"]; // Tambahkan simbol lain di sini
+            const cryptoSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "SHIBUSDT", "PEPEUSDT", "DOTUSDT", "XRPUSDT", "PENGUUSDT", "LTCUSDT", "LINKUSDT", "XLMUSDT"]; // Tambahkan simbol lain di sini
             const apiStart = <?= $apiStart ?>;
             const apiEnd = <?= $apiEnd ?>;
 
