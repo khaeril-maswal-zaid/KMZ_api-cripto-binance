@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Al-Zaid Webcrafters</title>
+  <title>Al-Zaid Webcrafters - PHP</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -257,9 +257,9 @@
       const endTime = Date.now();
 
       // Fetch historical data for the table
-      let sevenMinitsAgo = endTime - 10 * 1000;
+      let tenSecondAgo = endTime - 10 * 1000;
 
-      const tableUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1s&startTime=${sevenMinitsAgo}&endTime=${endTime}`;
+      const tableUrl = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=1s&startTime=${tenSecondAgo}&endTime=${endTime}`;
       fetch(tableUrl)
         .then(response => response.json())
         .then(data => {
