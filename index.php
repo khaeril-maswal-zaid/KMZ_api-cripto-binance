@@ -80,6 +80,42 @@
       margin-bottom: 35px;
     }
 
+    .container {
+      display: flex;
+      justify-content: center;
+      /* Mengatur konten agar rata tengah secara horizontal */
+      align-items: center;
+      /* Mengatur konten agar rata tengah secara vertikal (jika diperlukan) */
+      margin-bottom: 35px;
+    }
+
+    .btn-custom {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007bff;
+      /* Warna biru Bootstrap */
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn-custom:hover {
+      background-color: #0056b3;
+      /* Warna biru gelap saat hover */
+      transform: translateY(-2px);
+    }
+
+    .btn-custom:active {
+      background-color: #004085;
+      /* Warna biru lebih gelap saat aktif */
+      transform: translateY(0);
+    }
+
+
     @media (max-width: 768px) {
       body {
         margin: 10px;
@@ -125,7 +161,7 @@
     <option value="PENGUUSDT">PENGU-USDT</option>
     <option value="LTCUSDT">LTC-USDT</option>
     <option value="LINKUSDT">LINK-USDT</option>
-    <option value="XLMSDT">XXLMSDT</option>
+    <option value="XLMUSDT">XXLM-USDT</option>
   </select>
 
   <!-- Tabel data historis -->
@@ -144,6 +180,10 @@
         <!-- Data will be dynamically inserted here -->
       </tbody>
     </table>
+  </div>
+
+  <div class="container">
+    <a href="process.php" class="btn-custom">Save ki!</a>
   </div>
 
   <?php

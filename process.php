@@ -98,12 +98,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $today_8amx = strtotime("yesterday") * 1000;
         }
 
-        $apiEnd = $today_8am;
-        $apiStart = $apiEnd - 24 * 60 * 60 * 1000;
+        $apiEnd = $today_8am - 2 * 24 * 60 * 60 * 1000;
+        $apiStart = $apiEnd - 3 * 24 * 60 * 60 * 1000;
         ?>
 
-
         document.addEventListener('DOMContentLoaded', async function() {
+            const cryptoSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "SHIBCUSDT", "PEPECUSDT", "DOTUSDT", "XRPUSDT", "PENGUUSDT", "LTCUSDT", "LINKUSDT", "XLMUSDT"]; // Tambahkan simbol lain di sini
+            const apiStart = <?= $apiStart ?>;
+            const apiEnd = <?= $apiEnd ?>;
+
             function formatNumber(num) {
                 return num.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
@@ -111,49 +114,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 });
             }
 
-            try {
-                const apiUrl = `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&startTime=<?= $apiStart ?>&endTime=<?= $apiEnd ?>`;
-                const apiResponse = await fetch(apiUrl);
-                const data = await apiResponse.json();
+            for (const symbol of cryptoSymbols) {
+                try {
+                    const apiUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1h&startTime=${apiStart}&endTime=${apiEnd}`;
+                    const apiResponse = await fetch(apiUrl);
+                    const data = await apiResponse.json();
 
-                const allPighPrices = data.map(candle => parseFloat(candle[2]));
-                const allLowPrices = data.map(candle => parseFloat(candle[3]));
-                const times = data.map(candle => new Date(candle[0]));
+                    const allHighPrices = data.map(candle => parseFloat(candle[2]));
+                    const allLowPrices = data.map(candle => parseFloat(candle[3]));
+                    const times = data.map(candle => new Date(candle[0]));
 
-                const highestPriceIndex = allPighPrices.indexOf(Math.max(...allPighPrices));
-                const lowestPriceIndex = allLowPrices.indexOf(Math.min(...allLowPrices));
+                    const highestPriceIndex = allHighPrices.indexOf(Math.max(...allHighPrices));
+                    const lowestPriceIndex = allLowPrices.indexOf(Math.min(...allLowPrices));
 
-                const signif = formatNumber(((allPighPrices[highestPriceIndex] - allLowPrices[lowestPriceIndex]) / allLowPrices[lowestPriceIndex]) * 100) + "%";
+                    const signif = formatNumber(((allHighPrices[highestPriceIndex] - allLowPrices[lowestPriceIndex]) / allLowPrices[lowestPriceIndex]) * 100) + "%";
 
-                const highPrice = `$${formatNumber(allPighPrices[highestPriceIndex])}`;
-                const timeHighPrice = times[highestPriceIndex].toLocaleString();
+                    const highPrice = `$${formatNumber(allHighPrices[highestPriceIndex])}`;
+                    const timeHighPrice = times[highestPriceIndex].toLocaleString();
 
-                const lowPrices = `$${formatNumber(allLowPrices[lowestPriceIndex])}`;
-                const timeLowPrices = times[lowestPriceIndex].toLocaleString();
+                    const lowPrices = `$${formatNumber(allLowPrices[lowestPriceIndex])}`;
+                    const timeLowPrices = times[lowestPriceIndex].toLocaleString();
 
-                // Kirim data ke PHP menggunakan fetch
-                const response = await fetch(window.location.href, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        highPrice,
-                        timeHighPrice,
-                        signif,
-                        lowPrices,
-                        timeLowPrices,
-                    })
-                });
+                    // Kirim data ke PHP menggunakan fetch
+                    const response = await fetch(window.location.href, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            symbol, // Simbol yang sedang diproses
+                            highPrice,
+                            timeHighPrice,
+                            signif,
+                            lowPrices,
+                            timeLowPrices,
+                        })
+                    });
 
-                const result = await response.json();
-                alert(result.message); // Tampilkan pesan dari server
-                console.log(result.message); // Tampilkan pesan dari server
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan!');
+                    const result = await response.json();
+                    console.log(`${symbol} - ${result.message}`); // Tampilkan pesan dari server per simbol
+                } catch (error) {
+                    console.error(`Error for ${symbol}:`, error);
+                    alert(`Terjadi kesalahan pada simbol ${symbol}!`);
+                }
             }
-        })
+        });
     </script>
 </body>
 
