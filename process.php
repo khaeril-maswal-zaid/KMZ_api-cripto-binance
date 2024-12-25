@@ -5,10 +5,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     // $data = $_REQUEST;
 
-    function isDuplikat($conn, $timeHigh, $timeLow)
+    function isDuplikat($conn, $timeHigh, $symbol)
     {
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM prices WHERE time_high_price = :timeHigh OR time_low_price = :timeLow");
-        $stmt->execute(['timeHigh' => $timeHigh, 'timeLow' => $timeLow]);
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM prices WHERE time_high_price = :timeHigh AND type_cripto = :symbol");
+        $stmt->execute(['timeHigh' => $timeHigh, 'symbol' => $symbol]);
         return $stmt->fetchColumn() > 0;
     }
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-            if (isDuplikat($conn, $data['timeHighPrice'], $data['timeLowPrices'])) {
+            if (isDuplikat($conn, $data['timeHighPrice'], $data['symbol'])) {
                 echo json_encode(["status" => "error", "message" => "Data Duplikat"]);
             } else {
 
@@ -86,26 +86,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit">Ok</button>
     </form> -->
 
+    <div id="loading" style="display: nonex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); color: white; font-size: 24px; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+        <p id="massage">Proses... </p>
+    </div>
+
     <script>
         <?php
         $timestamp = round(microtime(true) * 1000);
 
-        // Waktu pukul 8 pagi hari ini
-        $today_8am = strtotime("today") * 1000;
+        // // Waktu pukul 8 pagi hari ini
+        // $today_8am = strtotime("today 08:00") * 1000;
 
-        // Jika sekarang masih sebelum pukul 8 pagi, ambil pukul 8 pagi kemarin
-        if ($timestamp < $today_8am) {
-            $today_8amx = strtotime("yesterday") * 1000;
-        }
+        // // Jika sekarang masih sebelum pukul 8 pagi, ambil pukul 8 pagi kemarin
+        // if ($timestamp < $today_8am) {
+        //     $today_8amx = strtotime("yesterday") * 1000;
+        // }
 
-        $apiEnd = $today_8am - 2 * 24 * 60 * 60 * 1000;
-        $apiStart = $apiEnd - 3 * 24 * 60 * 60 * 1000;
+        $apiEnd = $timestamp - 6 * 24 * 60 * 60 * 1000;
+        $apiStart = $apiEnd - 7 * 24 * 60 * 60 * 1000;
         ?>
 
         document.addEventListener('DOMContentLoaded', async function() {
             const cryptoSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "SHIBUSDT", "PEPEUSDT", "DOTUSDT", "XRPUSDT", "PENGUUSDT", "LTCUSDT", "LINKUSDT", "XLMUSDT"]; // Tambahkan simbol lain di sini
-            const apiStart = <?= $apiStart ?>;
-            const apiEnd = <?= $apiEnd ?>;
+
+            const now = new Date();
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const apiEnd = startOfDay - 6 * 24 * 60 * 60 * 1000;
+            const apiStart = startOfDay - 7 * 24 * 60 * 60 * 1000;
+
+            console.log(new Date(apiStart).toLocaleString(), new Date(apiEnd).toLocaleString());
+            exit;
 
             function formatNumber(num) {
                 return num.toLocaleString('en-US', {
@@ -113,6 +123,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     maximumFractionDigits: 2
                 });
             }
+
+            const loading = document.getElementById('loading');
+            const massage = document.getElementById('massage');
+            loading.style.display = 'flex';
 
             for (const symbol of cryptoSymbols) {
                 try {
@@ -153,11 +167,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     const result = await response.json();
                     console.log(`${symbol} - ${result.message}`); // Tampilkan pesan dari server per simbol
+                    massage.textContent = `${symbol} - ${result.message}...`;
                 } catch (error) {
                     console.error(`Error for ${symbol}:`, error);
-                    alert(`Terjadi kesalahan pada simbol ${symbol}!`);
+                    massage.textContent = `Terjadi kesalahan pada simbol ${symbol}..!`;
+                    // alert(`Terjadi kesalahan pada ${symbol}!`);
                 }
             }
+
+            loading.style.display = 'none';
+            window.location.href = "history-high-low-prices.php";
         });
     </script>
 </body>
