@@ -212,9 +212,19 @@
         let symbol = selectElement.value; // Default value saat pertama kali halaman dimuat
 
         selectElement.addEventListener("change", () => {
+          prosesGantiSelect();
           const symbol = selectElement.value;
+
+          fetchData();
           fetchDataForAllScales(symbol);
         });
+
+        function prosesGantiSelect() {
+          const tds = document.querySelectorAll("tr td");
+          tds.forEach((cell, index) => {
+            cell.textContent = "-";
+          });
+        }
 
         function formatNumber(num) {
           return num.toLocaleString("en-US", {
