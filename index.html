@@ -216,6 +216,13 @@
           fetchDataForAllScales(symbol);
         });
 
+        function formatNumber(num) {
+          return num.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        }
+
         async function fetchDataForAllScales(symbol) {
           const now = Date.now();
           const timePeriods = {
@@ -281,14 +288,68 @@
           ).toFixed(2);
 
           const table = tableElements[scale];
-          table.high.textContent = highestPrice.toFixed(2);
+          table.high.textContent = `$${formatNumber(highestPrice)}`;
           table.highTime.textContent = new Date(highestTime).toLocaleString();
           table.signif.textContent = `${percentChange}%`;
-          table.low.textContent = lowestPrice.toFixed(2);
+          table.low.textContent = `$${formatNumber(lowestPrice)}`;
           table.lowTime.textContent = new Date(lowestTime).toLocaleString();
         }
 
         fetchDataForAllScales(symbol);
+
+        function fetchData() {
+          const endTime = Date.now();
+
+          // Fetch historical data for the table
+          let tenSecondAgo = endTime - 10 * 1000;
+
+          const tableUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1s&startTime=${tenSecondAgo}&endTime=${endTime}`;
+          fetch(tableUrl)
+            .then((response) => response.json())
+            .then((data) => {
+              const tableBody = document.getElementById("data-table");
+              tableBody.innerHTML = ""; // Clear previous data
+
+              const maxRows = 7; // Jumlah baris tetap
+              const filledData = data.slice(0, maxRows); // Batasi data jika lebih
+
+              // Render data yang tersedia
+              filledData.reverse().forEach((candle, index) => {
+                const openTime = new Date(candle[0]).toLocaleString();
+                const openPrice = `$${formatNumber(parseFloat(candle[1]))}`;
+                const closePrice = `$${formatNumber(parseFloat(candle[4]))}`;
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${index + 1}</td>
+                  <td>${openTime}</td>
+                  <td>${openPrice}</td>
+                  <td>${closePrice}</td>
+                `;
+                tableBody.appendChild(row);
+              });
+
+              // Tambahkan baris kosong jika data kurang dari maxRows
+              const emptyRows = maxRows - filledData.length;
+              for (let i = 0; i < emptyRows; i++) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${filledData.length + i + 1}</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                 `;
+                tableBody.appendChild(row);
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
+        }
+
+        fetchData();
+        // Panggil fetchData setiap 1,3 detik
+        setInterval(fetchData, 1300);
       });
     </script>
   </body>
