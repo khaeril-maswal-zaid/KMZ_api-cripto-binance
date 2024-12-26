@@ -4,148 +4,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Al-Zaid Webcrafters - PHP</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 20px;
-      color: #333;
-      background-color: #f9f9f9;
-    }
+  <title>Al-Zaid Webcrafters</title>
 
-    h1 {
-      text-align: center;
-      color: #444;
-      margin-bottom: 0px;
-    }
-
-    h3 {
-      margin-bottom: 20px;
-      color: #555;
-      text-align: center;
-    }
-
-    p {
-      text-align: center;
-      margin: 0px auto 20px auto;
-      font-style: italic;
-    }
-
-    select {
-      display: block;
-      margin: 20px auto;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #fff;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      /* margin: 20px 0; */
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    th,
-    td {
-      padding: 15px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f0f0f0;
-      color: #555;
-      font-weight: bold;
-    }
-
-    tbody tr:hover {
-      background-color: #f7f7f7;
-    }
-
-    tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    .scrollable {
-      overflow-x: auto;
-      /* padding: 10px; */
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: rgb(246, 246, 246);
-      margin-bottom: 35px;
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      /* Mengatur konten agar rata tengah secara horizontal */
-      align-items: center;
-      /* Mengatur konten agar rata tengah secara vertikal (jika diperlukan) */
-      margin-bottom: 35px;
-    }
-
-    .btn-custom {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: #007bff;
-      /* Warna biru Bootstrap */
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.2s;
-      margin: 0px 10px;
-    }
-
-    .btn-custom:hover {
-      background-color: #0056b3;
-      /* Warna biru gelap saat hover */
-      transform: translateY(-2px);
-    }
-
-    .btn-custom:active {
-      background-color: #004085;
-      /* Warna biru lebih gelap saat aktif */
-      transform: translateY(0);
-    }
-
-
-    @media (max-width: 768px) {
-      body {
-        margin: 10px;
-      }
-
-      h1 {
-        font-size: 1.5em;
-      }
-
-      h3 {
-        font-size: 1.2em;
-      }
-
-      table,
-      th,
-      td {
-        font-size: 0.9em;
-      }
-
-      select {
-        width: 90%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <nav class="navbar">
+    <div class="navbar-title">AlZaid Webcrafters</div>
+    <ul class="navbar-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="daily-history.html">Daily History</a></li>
+      <li><a href="weekly-history.html">Weekly History</a></li>
+      <li><a href="monthly-history.html">Monthly History</a></li>
+      <li><a href="yearly-history.html">Yearly History</a></li>
+    </ul>
+    <div class="navbar-toggle" id="navbar-toggle">
+      &#9776;
+    </div>
+  </nav>
+
   <h1>Binance Historical Data</h1>
   <p>Data Presented by Al-Zaid Webcrafters</p>
+
+  <div class="container">
+    <a href="create.html" class="btn-custom">Save ki!</a>
+  </div>
 
   <select name="cripto" id="cripto">
     <option value="BTCUSDT">BTC-USDT</option>
@@ -183,11 +67,6 @@
     </table>
   </div>
 
-  <div class="container">
-    <a href="create.html" class="btn-custom">Save ki!</a>
-    <a href="histori-prices.html" class="btn-custom">Saved</a>
-  </div>
-
   <?php
   $skalas = ['24-Hour', '7-Day', '1-Month', '1-Year'];
   foreach ($skalas as $key => $value) :
@@ -216,6 +95,15 @@
       </table>
     </div>
   <?php endforeach ?>
+
+  <script>
+    const navbarToggle = document.getElementById('navbar-toggle');
+    const navbar = document.querySelector('.navbar');
+
+    navbarToggle.addEventListener('click', () => {
+      navbar.classList.toggle('active');
+    });
+  </script>
 
   <script>
     const tableBody = document.getElementById('data-table');
@@ -272,11 +160,11 @@
       $oneYearAgo = $timestamp - 365 * 24 * 60 * 60 * 1000;
 
       $start = [$oneDayAgo, $oneWeekAgo, $oneMonthAgo, $oneYearAgo];
-      $interval = ["15m", "1d", "1d", "1w"];
+      $interval = ["3m", "15", "1h", "1d"]; //mentok untuk 1000 limit
 
       foreach ($skalas as $key => $value) :
       ?>
-        const kmz<?= str_replace("-", "", $value,) ?> = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=<?= $interval[$key] ?>&startTime=<?= $start[$key] ?>&endTime=<?= $timestamp ?>`;
+        const kmz<?= str_replace("-", "", $value,) ?> = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=<?= $interval[$key] ?>&startTime=<?= $start[$key] ?>&endTime=<?= $timestamp ?>&limi=1000`;
         fetch(kmz<?= str_replace("-", "", $value,) ?>)
           .then(response => response.json())
           .then(data => {

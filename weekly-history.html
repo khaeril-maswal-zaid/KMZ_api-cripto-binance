@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Al-Zaid Webcrafters</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-title">AlZaid Webcrafters</div>
+      <ul class="navbar-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="daily-history.html">Daily History</a></li>
+        <li><a href="weekly-history.html">Weekly History</a></li>
+        <li><a href="monthly-history.html">Monthly History</a></li>
+        <li><a href="yearly-history.html">Yearly History</a></li>
+      </ul>
+      <div class="navbar-toggle" id="navbar-toggle">&#9776;</div>
+    </nav>
+
+    <h1>Binance Historical Data</h1>
+
+    <p>Data Presented by Al-Zaid Webcrafters</p>
+
+    <select name="cripto" id="cripto">
+      <option value="BTCUSDT">BTC-USDT</option>
+      <option value="ETHUSDT">ETH-USDT</option>
+      <option value="BNBUSDT">BNB-USDT</option>
+      <option value="SOLUSDT">SOL-USDT</option>
+      <option value="ADAUSDT">ADA-USDT</option>
+      <option value="DOGEUSDT">DOGE-USDT</option>
+      <option value="AVAXUSDT">AVAX-USDT</option>
+      <option value="SHIBUSDT">SHIB-USDT</option>
+      <option value="PEPEUSDT">PEPE-USDT</option>
+      <option value="DOTUSDT">DOT-USDT</option>
+      <option value="XRPUSDT">XRP-USDT</option>
+      <option value="PENGUUSDT">PENGU-USDT</option>
+      <option value="LTCUSDT">LTC-USDT</option>
+      <option value="LINKUSDT">LINK-USDT</option>
+      <option value="XLMUSDT">XXLM-USDT</option>
+    </select>
+
+    <div class="container">
+      <a href="index.php" class="btn-custom">Home</a>
+    </div>
+
+    <div class="scrollable">
+      <h3 id="sub-title">Price High & Lows: BTC-USDT</h3>
+
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+
+        <tbody id="price-high-low">
+          <tr>
+            <td>-</td>
+            <td rowspan="2">-</td>
+            <td>-</td>
+          </tr>
+
+          <tr>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const navbarToggle = document.getElementById("navbar-toggle");
+      const navbar = document.querySelector(".navbar");
+
+      navbarToggle.addEventListener("click", () => {
+        navbar.classList.toggle("active");
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const selectElement = document.getElementById("cripto");
+        const dataTableBody = document.getElementById("price-high-low");
+        const subTitle = document.getElementById("sub-title");
+        const API_BASE_URL = "https://api.binance.com/api/v3/klines";
+        const LIMIT = 10; // Jumlah data yang ditampilkan
+        const formatCurrency = (value) => {
+          return `$${Number(value).toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`;
+        };
+        const calculatePercentage = (low, high) => {
+          return (((high - low) / low) * 100).toFixed(2) + "%";
+        };
+
+        const fetchWeeklyData = async (symbol, endTime) => {
+          const startTime = endTime - 7 * 24 * 60 * 60 * 1000; // 7 hari sebelumnya
+          const params = new URLSearchParams({
+            symbol,
+            interval: "15m", //mentok di sini
+            startTime,
+            endTime,
+            limit: 1000, // Mengambil semua data dalam interval 15 menit untuk satu minggu penuh
+          });
+          const response = await fetch(`${API_BASE_URL}?${params.toString()}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch data from Binance API");
+          }
+          return await response.json();
+        };
+
+        const fetchMultipleWeeksData = async (symbol) => {
+          const data = [];
+          let endTime = new Date().setHours(0, 0, 0, 0); // 00:00 hari ini
+          for (let i = 0; i < LIMIT; i++) {
+            const weeklyData = await fetchWeeklyData(symbol, endTime);
+            data.push(weeklyData);
+            endTime -= 7 * 24 * 60 * 60 * 1000; // Kurangi 7 hari untuk iterasi berikutnya
+          }
+          return data;
+        };
+
+        const updateTable = (data) => {
+          dataTableBody.innerHTML = "";
+          data.forEach((weekData) => {
+            if (weekData.length === 0) return; // Jika tidak ada data untuk minggu itu, lewati
+            const prices = weekData.map((item) => ({
+              high: parseFloat(item[2]),
+              low: parseFloat(item[3]),
+              time: parseInt(item[0]),
+            }));
+
+            const highestPrice = Math.max(...prices.map((p) => p.high));
+            const lowestPrice = Math.min(...prices.map((p) => p.low));
+            const highestTime = new Date(
+              prices.find((p) => p.high === highestPrice).time
+            ).toLocaleString();
+
+            const lowestTime = new Date(
+              prices.find((p) => p.low === lowestPrice).time
+            ).toLocaleString();
+
+            const percentage = calculatePercentage(lowestPrice, highestPrice);
+
+            const row1 = document.createElement("tr");
+            row1.innerHTML = `
+              <td>${formatCurrency(highestPrice)}</td>
+              <td rowspan="2">${percentage}</td>
+              <td>${formatCurrency(lowestPrice)}</td>
+            `;
+
+            const row2 = document.createElement("tr");
+            row2.innerHTML = `
+              <td>${highestTime}</td>
+              <td>${lowestTime}</td>
+            `;
+            dataTableBody.appendChild(row1);
+            dataTableBody.appendChild(row2);
+          });
+        };
+        const updateData = async () => {
+          const selectedSymbol = selectElement.value;
+          subTitle.textContent = `Price High & Lows: ${selectedSymbol} (Weekly Data)`;
+          try {
+            const data = await fetchMultipleWeeksData(selectedSymbol);
+            updateTable(data);
+          } catch (error) {
+            console.error(error);
+            alert("Failed to fetch data. Please try again later.");
+          }
+        };
+        // Initial load
+        updateData();
+        // Update data on selection change
+        selectElement.addEventListener("change", updateData);
+      });
+    </script>
+  </body>
+</html>

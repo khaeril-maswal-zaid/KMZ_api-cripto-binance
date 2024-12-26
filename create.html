@@ -3,10 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Process save data</title>
+    <title>Al-Zaid Webcrafters</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
+    <nav class="navbar">
+      <div class="navbar-title">AlZaid Webcrafters</div>
+      <ul class="navbar-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="daily-history.html">Daily History</a></li>
+        <li><a href="weekly-history.html">Weekly History</a></li>
+        <li><a href="monthly-history.html">Monthly History</a></li>
+        <li><a href="yearly-history.html">Yearly History</a></li>
+      </ul>
+      <div class="navbar-toggle" id="navbar-toggle">&#9776;</div>
+    </nav>
+
     <!-- UNTUK CEK MANUAL JIKA API HOLLO -->
     <!-- <form action="" method="post">
         <input type="text" name="highPrice" value="12">
@@ -38,6 +51,15 @@
     >
       <p id="massage">Proses...</p>
     </div>
+
+    <script>
+      const navbarToggle = document.getElementById("navbar-toggle");
+      const navbar = document.querySelector(".navbar");
+
+      navbarToggle.addEventListener("click", () => {
+        navbar.classList.toggle("active");
+      });
+    </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", async function () {

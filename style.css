@@ -1,0 +1,201 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0px;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  /* Warna dasar navbar */
+  padding: 10px 20px;
+}
+
+.navbar-title {
+  color: white;
+  font-size: 24px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  margin-left: 20px;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+}
+
+.navbar-links a:hover {
+  background-color: #0056b3;
+  /* Warna saat hover */
+  border-radius: 4px;
+}
+
+.navbar-toggle {
+  display: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+  color: #444;
+  margin-bottom: 0px;
+}
+
+h3 {
+  margin-bottom: 20px;
+  color: #555;
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  margin: 0px auto 20px auto;
+  font-style: italic;
+}
+
+select {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* margin: 20px 0; */
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f0f0f0;
+  color: #555;
+  font-weight: bold;
+}
+
+tbody tr:hover {
+  background-color: #f7f7f7;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.scrollable {
+  overflow-x: auto;
+  /* padding: 10px; */
+  margin: 0px 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: rgb(246, 246, 246);
+  margin-bottom: 35px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  /* Mengatur konten agar rata tengah secara horizontal */
+  align-items: center;
+  /* Mengatur konten agar rata tengah secara vertikal (jika diperlukan) */
+  margin-bottom: 35px;
+}
+
+.btn-custom {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  /* Warna biru Bootstrap */
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 0px 10px;
+}
+
+.btn-custom:hover {
+  background-color: #0056b3;
+  /* Warna biru gelap saat hover */
+  transform: translateY(-2px);
+}
+
+.btn-custom:active {
+  background-color: #004085;
+  /* Warna biru lebih gelap saat aktif */
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  body {
+    margin: 0px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: #007bff;
+    /* Warna dasar navbar */
+  }
+
+  .navbar-links li {
+    margin: 10px 0;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar.active .navbar-links {
+    display: flex;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  table,
+  th,
+  td {
+    font-size: 0.9em;
+  }
+
+  select {
+    width: 90%;
+  }
+}
