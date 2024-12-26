@@ -11,7 +11,7 @@
 
 <body>
   <nav class="navbar">
-    <div class="navbar-title">AlZaid Webcrafters</div>
+    <div class="navbar-title"><a href="/">AlZaid Webcrafters</a></div>
     <ul class="navbar-links">
       <li><a href="/">Home</a></li>
       <li><a href="daily-history.html">Daily History</a></li>
@@ -28,7 +28,7 @@
   <p>Data Presented by Al-Zaid Webcrafters</p>
 
   <div class="container">
-    <a href="create.html" class="btn-custom">Save ki!</a>
+    <a href="save-data-local.html" class="btn-custom">Save ki!</a>
   </div>
 
   <select name="cripto" id="cripto">
@@ -160,11 +160,11 @@
       $oneYearAgo = $timestamp - 365 * 24 * 60 * 60 * 1000;
 
       $start = [$oneDayAgo, $oneWeekAgo, $oneMonthAgo, $oneYearAgo];
-      $interval = ["3m", "15", "1h", "1d"]; //mentok untuk 1000 limit
+      $interval = ["3m", "15m", "1h", "1d"]; //mentok untuk 1000 limit
 
       foreach ($skalas as $key => $value) :
       ?>
-        const kmz<?= str_replace("-", "", $value,) ?> = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=<?= $interval[$key] ?>&startTime=<?= $start[$key] ?>&endTime=<?= $timestamp ?>&limi=1000`;
+        const kmz<?= str_replace("-", "", $value,) ?> = `https://api.binance.com/api/v3/klines?symbol=${selectedSymbol}&interval=<?= $interval[$key] ?>&startTime=<?= $start[$key] ?>&endTime=<?= $timestamp ?>&limit=1000`;
         fetch(kmz<?= str_replace("-", "", $value,) ?>)
           .then(response => response.json())
           .then(data => {

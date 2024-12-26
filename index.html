@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Al-Zaid Webcrafters</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-title"><a href="/">AlZaid Webcrafters</a></div>
+      <ul class="navbar-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="daily-history.html">Daily History</a></li>
+        <li><a href="weekly-history.html">Weekly History</a></li>
+        <li><a href="monthly-history.html">Monthly History</a></li>
+        <li><a href="yearly-history.html">Yearly History</a></li>
+      </ul>
+      <div class="navbar-toggle" id="navbar-toggle">&#9776;</div>
+    </nav>
+
+    <h1>Binance Historical Data</h1>
+    <p>Data Presented by Al-Zaid Webcrafters</p>
+
+    <div class="container">
+      <a href="save-data-local.html" class="btn-custom">Save ki!</a>
+    </div>
+
+    <select name="cripto" id="cripto">
+      <option value="BTCUSDT">BTC-USDT</option>
+      <option value="ETHUSDT">ETH-USDT</option>
+      <option value="BNBUSDT">BNB-USDT</option>
+      <option value="SOLUSDT">SOL-USDT</option>
+      <option value="ADAUSDT">ADA-USDT</option>
+      <option value="DOGEUSDT">DOGE-USDT</option>
+      <option value="AVAXUSDT">AVAX-USDT</option>
+      <option value="SHIBUSDT">SHIB-USDT</option>
+      <option value="PEPEUSDT">PEPE-USDT</option>
+      <option value="DOTUSDT">DOT-USDT</option>
+      <option value="XRPUSDT">XRP-USDT</option>
+      <option value="PENGUUSDT">PENGU-USDT</option>
+      <option value="LTCUSDT">LTC-USDT</option>
+      <option value="LINKUSDT">LINK-USDT</option>
+      <option value="XLMUSDT">XXLM-USDT</option>
+    </select>
+
+    <!-- Tabel data historis -->
+    <div class="scrollable">
+      <h3 id="real">Real Time BTC-USDT</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Time</th>
+            <th>Open Price</th>
+            <th>Close Price</th>
+          </tr>
+        </thead>
+        <tbody id="data-table">
+          <!-- Data will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scrollable">
+      <h3 id="24-Hour">BTC-USDT Price High & Lows: 24-Hour</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+        <tbody id="24-Hour-high-low">
+          <tr>
+            <td id="24-Hour-high">-</td>
+            <td id="24-Hour-signif" rowspan="2">-</td>
+            <td id="24-Hour-low">-</td>
+          </tr>
+          <tr>
+            <td id="24-Hour-high-time">-</td>
+            <td id="24-Hour-low-time">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scrollable">
+      <h3 id="7-Day">BTC-USDT Price High & Lows: 7-Day</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+        <tbody id="7-Day-high-low">
+          <tr>
+            <td id="7-Day-high">-</td>
+            <td id="7-Day-signif" rowspan="2">-</td>
+            <td id="7-Day-low">-</td>
+          </tr>
+          <tr>
+            <td id="7-Day-high-time">-</td>
+            <td id="7-Day-low-time">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scrollable">
+      <h3 id="1-Month">BTC-USDT Price High & Lows: 1-Month</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+        <tbody id="1-Month-high-low">
+          <tr>
+            <td id="1-Month-high">-</td>
+            <td id="1-Month-signif" rowspan="2">-</td>
+            <td id="1-Month-low">-</td>
+          </tr>
+          <tr>
+            <td id="1-Month-high-time">-</td>
+            <td id="1-Month-low-time">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scrollable">
+      <h3 id="1-Year">BTC-USDT Price High & Lows: 1-Year</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+        <tbody id="1-Year-high-low">
+          <tr>
+            <td id="1-Year-high">-</td>
+            <td id="1-Year-signif" rowspan="2">-</td>
+            <td id="1-Year-low">-</td>
+          </tr>
+          <tr>
+            <td id="1-Year-high-time">-</td>
+            <td id="1-Year-low-time">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const navbarToggle = document.getElementById("navbar-toggle");
+      const navbar = document.querySelector(".navbar");
+
+      navbarToggle.addEventListener("click", () => {
+        navbar.classList.toggle("active");
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const API_BASE = "https://api.binance.com/api/v3/klines";
+        const INTERVALS = {
+          "24-Hour": "3m",
+          "7-Day": "15m",
+          "1-Month": "1h",
+          "1-Year": "1d",
+        };
+        const LIMIT = 1000;
+
+        const tableElements = {
+          "24-Hour": {
+            high: document.getElementById("24-Hour-high"),
+            highTime: document.getElementById("24-Hour-high-time"),
+            signif: document.getElementById("24-Hour-signif"),
+            low: document.getElementById("24-Hour-low"),
+            lowTime: document.getElementById("24-Hour-low-time"),
+          },
+          "7-Day": {
+            high: document.getElementById("7-Day-high"),
+            highTime: document.getElementById("7-Day-high-time"),
+            signif: document.getElementById("7-Day-signif"),
+            low: document.getElementById("7-Day-low"),
+            lowTime: document.getElementById("7-Day-low-time"),
+          },
+          "1-Month": {
+            high: document.getElementById("1-Month-high"),
+            highTime: document.getElementById("1-Month-high-time"),
+            signif: document.getElementById("1-Month-signif"),
+            low: document.getElementById("1-Month-low"),
+            lowTime: document.getElementById("1-Month-low-time"),
+          },
+          "1-Year": {
+            high: document.getElementById("1-Year-high"),
+            highTime: document.getElementById("1-Year-high-time"),
+            signif: document.getElementById("1-Year-signif"),
+            low: document.getElementById("1-Year-low"),
+            lowTime: document.getElementById("1-Year-low-time"),
+          },
+        };
+
+        const selectElement = document.getElementById("cripto");
+        let symbol = selectElement.value; // Default value saat pertama kali halaman dimuat
+
+        selectElement.addEventListener("change", () => {
+          const symbol = selectElement.value;
+          fetchDataForAllScales(symbol);
+        });
+
+        async function fetchDataForAllScales(symbol) {
+          const now = Date.now();
+          const timePeriods = {
+            "24-Hour": now - 24 * 60 * 60 * 1000,
+            "7-Day": now - 7 * 24 * 60 * 60 * 1000,
+            "1-Month": now - 30 * 24 * 60 * 60 * 1000,
+            "1-Year": now - 365 * 24 * 60 * 60 * 1000,
+          };
+
+          for (let [scale, startTime] of Object.entries(timePeriods)) {
+            const interval = INTERVALS[scale];
+            const data = await fetchHistoricalData(
+              symbol,
+              interval,
+              startTime,
+              now
+            );
+            if (data) populateTable(scale, data);
+          }
+        }
+
+        async function fetchHistoricalData(
+          symbol,
+          interval,
+          startTime,
+          endTime
+        ) {
+          try {
+            const url = `${API_BASE}?symbol=${symbol}&interval=${interval}&startTime=${startTime}&endTime=${endTime}&limit=${LIMIT}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Error fetching data");
+            return await response.json();
+          } catch (error) {
+            console.error("Failed to fetch data:", error);
+            return null;
+          }
+        }
+
+        function populateTable(scale, data) {
+          let highestPrice = -Infinity,
+            lowestPrice = Infinity,
+            highestTime,
+            lowestTime;
+
+          data.forEach((entry) => {
+            const high = parseFloat(entry[2]);
+            const low = parseFloat(entry[3]);
+            const timestamp = parseInt(entry[0]);
+
+            if (high > highestPrice) {
+              highestPrice = high;
+              highestTime = timestamp;
+            }
+            if (low < lowestPrice) {
+              lowestPrice = low;
+              lowestTime = timestamp;
+            }
+          });
+
+          const percentChange = (
+            ((highestPrice - lowestPrice) / lowestPrice) *
+            100
+          ).toFixed(2);
+
+          const table = tableElements[scale];
+          table.high.textContent = highestPrice.toFixed(2);
+          table.highTime.textContent = new Date(highestTime).toLocaleString();
+          table.signif.textContent = `${percentChange}%`;
+          table.low.textContent = lowestPrice.toFixed(2);
+          table.lowTime.textContent = new Date(lowestTime).toLocaleString();
+        }
+
+        fetchDataForAllScales(symbol);
+      });
+    </script>
+  </body>
+</html>
