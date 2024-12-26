@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        color: #333;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        text-align: center;
+        color: #444;
+        margin-bottom: 0px;
+      }
+
+      h3 {
+        margin-bottom: 20px;
+        color: #555;
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        margin: 0px auto 20px auto;
+        font-style: italic;
+      }
+
+      select {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        /* margin: 20px 0; */
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f0f0f0;
+        color: #555;
+        font-weight: bold;
+      }
+
+      tbody tr:hover {
+        background-color: #f7f7f7;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .scrollable {
+        overflow-x: auto;
+        /* padding: 10px; */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: rgb(246, 246, 246);
+        margin-bottom: 35px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        /* Mengatur konten agar rata tengah secara horizontal */
+        align-items: center;
+        /* Mengatur konten agar rata tengah secara vertikal (jika diperlukan) */
+        margin-bottom: 35px;
+      }
+
+      .btn-custom {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #007bff;
+        /* Warna biru Bootstrap */
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .btn-custom:hover {
+        background-color: #0056b3;
+        /* Warna biru gelap saat hover */
+        transform: translateY(-2px);
+      }
+
+      .btn-custom:active {
+        background-color: #004085;
+        /* Warna biru lebih gelap saat aktif */
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          margin: 10px;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        h3 {
+          font-size: 1.2em;
+        }
+
+        table,
+        th,
+        td {
+          font-size: 0.9em;
+        }
+
+        select {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Binance Historical Data</h1>
+    <p>Data Presented by Al-Zaid Webcrafters</p>
+
+    <select name="cripto" id="cripto">
+      <option value="BTCUSDT">BTC-USDT</option>
+      <option value="ETHUSDT">ETH-USDT</option>
+      <option value="BNBUSDT">BNB-USDT</option>
+      <option value="SOLUSDT">SOL-USDT</option>
+      <option value="ADAUSDT">ADA-USDT</option>
+      <option value="DOGEUSDT">DOGE-USDT</option>
+      <option value="AVAXUSDT">AVAX-USDT</option>
+      <option value="SHIBUSDT">SHIB-USDT</option>
+      <option value="PEPEUSDT">PEPE-USDT</option>
+      <option value="DOTUSDT">DOT-USDT</option>
+      <option value="XRPUSDT">XRP-USDT</option>
+      <option value="PENGUUSDT">PENGU-USDT</option>
+      <option value="LTCUSDT">LTC-USDT</option>
+      <option value="LINKUSDT">LINK-USDT</option>
+      <option value="XLMUSDT">XXLM-USDT</option>
+    </select>
+
+    <div class="container">
+      <a href="index.php" class="btn-custom">Save ki!</a>
+    </div>
+
+    <div class="scrollable">
+      <h3 id="sub-title">Price High & Lows: BTC-USDT</h3>
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Highest Price</th>
+            <th>Significant</th>
+            <th>Lowest Price</th>
+          </tr>
+        </thead>
+        <tbody id="price-high-low">
+          <tr>
+            <td>-</td>
+            <td rowspan="2">-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const tableBody = document.getElementById("data-table");
+      const selectElement = document.getElementById("cripto");
+      let selectedSymbol = selectElement.value; // Default value saat pertama kali halaman dimuat
+
+      // Event listener untuk update symbol saat dropdown berubah
+      selectElement.addEventListener("change", () => {
+        selectedSymbol = selectElement.value;
+
+        const selectedValue =
+          selectElement.options[selectElement.selectedIndex].text; // Get selected text
+        document.getElementById(
+          "sub-title"
+        ).textContent = `Price High & Lows: ${selectedValue}`;
+
+        fetchData();
+      });
+
+      function fetchData() {
+        const serverKmz = `process.php?simbol=${selectedSymbol}`;
+        fetch(serverKmz)
+          .then((response) => response.json())
+          .then((datap) => {
+            tableBody.innerHTML = ""; // Clear previous data
+
+            const maxRows = 7; // Jumlah baris tetap
+            const filledData = datap.data.slice(0, maxRows); // Batasi data jika lebih
+            console.log(filledData);
+
+            // Render data yang tersedia
+            filledData.reverse().forEach((item, index) => {
+              // Baris pertama
+              const row1 = document.createElement("tr");
+
+              const tdA = document.createElement("td");
+              tdA.textContent = item.high_price;
+              row1.appendChild(tdA);
+
+              const tdC = document.createElement("td");
+              tdC.textContent = item.significant;
+              tdC.setAttribute("rowspan", "2"); // Kolom dengan rowspan
+              row1.appendChild(tdC);
+
+              const tdD = document.createElement("td");
+              tdD.textContent = item.low_price;
+              row1.appendChild(tdD);
+
+              // Baris kedua
+              const row2 = document.createElement("tr");
+
+              const tdB = document.createElement("td");
+              tdB.textContent = item.time_high_price;
+              row2.appendChild(tdB);
+
+              const tdE = document.createElement("td");
+              tdE.textContent = item.time_low_price;
+              row2.appendChild(tdE);
+
+              // Tambahkan baris ke tabel
+              tableBody.appendChild(row1);
+              tableBody.appendChild(row2);
+
+              //   tableBody.innerHTML = `
+              //     <tr>
+              //         <td>ok</td>
+              //         <td rowspan="2">-</td>
+              //         <td>-</td>
+              //     </tr>
+              //     <tr>
+              //         <td>ok</td>
+              //         <td>-</td>
+              //     </tr>
+              //     `;
+            });
+          });
+      }
+
+      fetchData();
+    </script>
+  </body>
+</html>

@@ -101,6 +101,7 @@
       text-align: center;
       text-decoration: none;
       transition: background-color 0.3s, transform 0.2s;
+      margin: 0px 10px;
     }
 
     .btn-custom:hover {
@@ -183,7 +184,8 @@
   </div>
 
   <div class="container">
-    <a href="process.php" class="btn-custom">Save ki!</a>
+    <a href="create.html" class="btn-custom">Save ki!</a>
+    <a href="histori-prices.html" class="btn-custom">Saved</a>
   </div>
 
   <?php
@@ -259,8 +261,6 @@
         document.getElementById('real').textContent = "Real Time " + selectedValue;
       <?php endforeach ?>
     });
-
-
 
     function fetchHistoricalData() {
       <?php
