@@ -25,23 +25,7 @@
 
     <p>Data Presented by Al-Zaid Webcrafters</p>
 
-    <select name="cripto" id="cripto">
-      <option value="BTCUSDT">BTC-USDT</option>
-      <option value="ETHUSDT">ETH-USDT</option>
-      <option value="BNBUSDT">BNB-USDT</option>
-      <option value="SOLUSDT">SOL-USDT</option>
-      <option value="ADAUSDT">ADA-USDT</option>
-      <option value="DOGEUSDT">DOGE-USDT</option>
-      <option value="AVAXUSDT">AVAX-USDT</option>
-      <option value="SHIBUSDT">SHIB-USDT</option>
-      <option value="PEPEUSDT">PEPE-USDT</option>
-      <option value="DOTUSDT">DOT-USDT</option>
-      <option value="XRPUSDT">XRP-USDT</option>
-      <option value="PENGUUSDT">PENGU-USDT</option>
-      <option value="LTCUSDT">LTC-USDT</option>
-      <option value="LINKUSDT">LINK-USDT</option>
-      <option value="XLMUSDT">XXLM-USDT</option>
-    </select>
+    <select name="cripto" id="cripto"></select>
 
     <div class="scrollable">
       <h3 id="sub-title">Price High & Lows: BTC-USDT</h3>
@@ -49,6 +33,7 @@
       <table id="data-table">
         <thead>
           <tr>
+            <th>No.</th>
             <th>Highest Price</th>
             <th>Significant</th>
             <th>Lowest Price</th>
@@ -57,6 +42,7 @@
 
         <tbody id="price-high-low">
           <tr>
+            <td rowspan="2">-</td>
             <td>-</td>
             <td rowspan="2">-</td>
             <td>-</td>
@@ -70,14 +56,7 @@
       </table>
     </div>
 
-    <script>
-      const navbarToggle = document.getElementById("navbar-toggle");
-      const navbar = document.querySelector(".navbar");
-
-      navbarToggle.addEventListener("click", () => {
-        navbar.classList.toggle("active");
-      });
-    </script>
+    <script src="script.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -125,7 +104,7 @@
 
         const updateTable = (data) => {
           dataTableBody.innerHTML = "";
-          data.forEach((weekData) => {
+          data.forEach((weekData, index) => {
             if (weekData.length === 0) return; // Jika tidak ada data untuk minggu itu, lewati
             const prices = weekData.map((item) => ({
               high: parseFloat(item[2]),
@@ -147,6 +126,7 @@
 
             const row1 = document.createElement("tr");
             row1.innerHTML = `
+            <td rowspan="2">${index}</td>
               <td>${formatCurrency(highestPrice)}</td>
               <td rowspan="2">${percentage}</td>
               <td>${formatCurrency(lowestPrice)}</td>
@@ -161,7 +141,10 @@
             dataTableBody.appendChild(row2);
           });
         };
+
         const updateData = async () => {
+          prosesGantiSelect();
+
           const selectedSymbol = selectElement.value;
           subTitle.textContent = `Price High & Lows: ${selectedSymbol} (Weekly Data)`;
           try {
@@ -178,15 +161,12 @@
         function prosesGantiSelect() {
           const tds = document.querySelectorAll("tr td");
           tds.forEach((cell, index) => {
-            cell.textContent = "-";
+            cell.textContent = "load..";
           });
         }
 
         // Update data on selection change
-        selectElement.addEventListener("change", () => {
-          updateData;
-          prosesGantiSelect();
-        });
+        selectElement.addEventListener("change", updateData);
       });
     </script>
   </body>

@@ -28,23 +28,7 @@
       <a href="save-data-local.html" class="btn-custom">Save ki!</a>
     </div>
 
-    <select name="cripto" id="cripto">
-      <option value="BTCUSDT">BTC-USDT</option>
-      <option value="ETHUSDT">ETH-USDT</option>
-      <option value="BNBUSDT">BNB-USDT</option>
-      <option value="SOLUSDT">SOL-USDT</option>
-      <option value="ADAUSDT">ADA-USDT</option>
-      <option value="DOGEUSDT">DOGE-USDT</option>
-      <option value="AVAXUSDT">AVAX-USDT</option>
-      <option value="SHIBUSDT">SHIB-USDT</option>
-      <option value="PEPEUSDT">PEPE-USDT</option>
-      <option value="DOTUSDT">DOT-USDT</option>
-      <option value="XRPUSDT">XRP-USDT</option>
-      <option value="PENGUUSDT">PENGU-USDT</option>
-      <option value="LTCUSDT">LTC-USDT</option>
-      <option value="LINKUSDT">LINK-USDT</option>
-      <option value="XLMUSDT">XXLM-USDT</option>
-    </select>
+    <select name="cripto" id="cripto"></select>
 
     <!-- Tabel data historis -->
     <div class="scrollable">
@@ -157,14 +141,7 @@
       </table>
     </div>
 
-    <script>
-      const navbarToggle = document.getElementById("navbar-toggle");
-      const navbar = document.querySelector(".navbar");
-
-      navbarToggle.addEventListener("click", () => {
-        navbar.classList.toggle("active");
-      });
-    </script>
+    <script src="script.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -213,7 +190,7 @@
 
         selectElement.addEventListener("change", () => {
           prosesGantiSelect();
-          const symbol = selectElement.value;
+          symbol = selectElement.value;
 
           fetchData();
           fetchDataForAllScales(symbol);
@@ -222,7 +199,7 @@
         function prosesGantiSelect() {
           const tds = document.querySelectorAll("tr td");
           tds.forEach((cell, index) => {
-            cell.textContent = "-";
+            cell.textContent = "Load..";
           });
         }
 
